@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: app_container
+    ports:
+      - "0.0.0.0:80:80"  # This binds the app to all interfaces on port 80. You can expose other ports as needed.
+      - "0.0.0.0:443:443"  # For HTTPS traffic
+    environment:
+      - SOME_ENV_VARIABLE=value
+    volumes:
+      - ./app:/usr/src/app
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
