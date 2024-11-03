@@ -11,22 +11,23 @@ RUN apt-get update && apt-get install -y \
     net-tools \
     iputils-ping \
     python3-pip \
-    # Add any additional dependencies your Python packages might need here
     && apt-get clean
 
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Add your application files
+# Copy application files into the container
 COPY . .
 
-# Install Python packages if required (optional)
-# Use --no-cache-dir to avoid caching issues
+# Make the run script executable
+RUN chmod +x run_gotty.sh
+
+# Install Python packages if there is a requirements file
 RUN if [ -f requirements.txt ]; then pip3 install --no-cache-dir -r requirements.txt; fi
 
-# Expose the necessary ports
+# Expose necessary ports
 EXPOSE 80
 EXPOSE 443
 
-# Start the application or service
+# Set the default command to start the application
 CMD ["bash", "run_gotty.sh"]
