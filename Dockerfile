@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     net-tools \
     iputils-ping \
     python3-pip \
+    # Add any additional dependencies your Python packages might need here
     && apt-get clean
 
 # Set the working directory
@@ -20,7 +21,8 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install Python packages if required (optional)
-RUN pip3 install -r requirements.txt
+# Use --no-cache-dir to avoid caching issues
+RUN if [ -f requirements.txt ]; then pip3 install --no-cache-dir -r requirements.txt; fi
 
 # Expose the necessary ports
 EXPOSE 80
