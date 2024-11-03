@@ -5,15 +5,15 @@ services:
     build: .
     container_name: app_container
     ports:
-      - "0.0.0.0:80:80"  # This binds the app to all interfaces on port 80. You can expose other ports as needed.
-      - "0.0.0.0:443:443"  # For HTTPS traffic
+      - "80:80"    # Exposes HTTP on port 80
+      - "443:443"  # Exposes HTTPS on port 443
     environment:
       - SOME_ENV_VARIABLE=value
     volumes:
-      - ./app:/usr/src/app
+      - ./app:/usr/src/app  # Syncs local app folder to the container
     networks:
       - app-network
-    restart: unless-stopped
+    restart: unless-stopped  # Automatically restarts the container if it crashes
 
 networks:
   app-network:
